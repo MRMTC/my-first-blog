@@ -1,20 +1,16 @@
-<html>
-    <head>
-        <title>Tony's Blog</title>
-    </head>
-	
-    <body>
-        <div>
-            <h1><a href="">Tony's Blog</a></h1>
-        </div>
+{% extends 'blog/base.html' %}
 
-        {% for post in posts %}
-		<div>
-			<p>published: {{ post.published_date }}</p>
-			<h1><a href="">{{ post.title }}</a></h1>
-			<p>{{ post.text|linebreaksbr }}</p>
-		</div>
-		{% endfor %}
-		
-    </body>
-</html>
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+			
+			{# The two perecentage signs notation means that we are using Django template tags.  This time we will use one that will create a URL for us. 'blog' is the name of our application (the directory blog), 'views' is from the name of the views.py file and the last bit 'post_detail' is the name of the 'view'. 'pk' is short for primary key, which is a unique name for each record in a database #}
+			
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
